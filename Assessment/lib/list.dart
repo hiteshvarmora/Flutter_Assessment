@@ -8,43 +8,21 @@ class ListWidget extends StatefulWidget {
 }
 
 class ListWidgetState extends State<ListWidget> {
-  late ScrollController _scrollController;
   List<int> itemCounts = List.generate(100, (_) => 0);
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _resetFirstItem();
-      }
-      if (_scrollController.offset <=
-              _scrollController.position.minScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _resetFirstItem();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
-  }
-
-  void _resetFirstItem() {
-    setState(() {
-      itemCounts[0] = 0;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      controller: _scrollController,
       itemCount: itemCounts.length,
       itemBuilder: (context, index) => ListItemWidget(
         count: itemCounts[index],
